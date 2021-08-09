@@ -4,21 +4,24 @@ require __DIR__.'/functions.php';
 
 if ('POST' == $_SERVER['REQUEST_METHOD']) {
     $bebrai = getBebrai();
-    if ('prideti-juodus' == $_POST['ka_daryti']) {
-        $bebrai['juodieji'] += (int)$_POST['j_plus'];
+    $rawData = file_get_contents("php://input");
+    $data = json_decode($rawData, 1);
+
+    if ('prideti-juodus' == $data['kaDaryti']) {
+        $bebrai['juodieji'] += (int)$data['kiek'];
     }
-    elseif ('atimti-juodus' == $_POST['ka_daryti']) {
-        $bebrai['juodieji'] -= (int)$_POST['j_minus'];
+    elseif ('atimti-juodus' == $data['kaDaryti']) {
+        $bebrai['juodieji'] -= (int)$data['kiek'];
     }
-    elseif ('prideti-rudus' == $_POST['ka_daryti']) {
-        $bebrai['rudieji'] += (int)$_POST['r_plus'];
+    elseif ('prideti-rudus' == $data['kaDaryti']) {
+        $bebrai['rudieji'] += (int)$data['kiek'];
     }
-    elseif ('atimti-rudus' == $_POST['ka_daryti']) {
-        $bebrai['rudieji'] -= (int)$_POST['r_minus'];
+    elseif ('atimti-rudus' == $data['kaDaryti']) {
+        $bebrai['rudieji'] -= (int)$data['kiek'];
     }
     setBebrai($bebrai);
-    header('Location: http://localhost/Lape/11/BebruUztvanka.php');
-    die;
+    header('Content-Type: application/json');
+    echo json_encode($bebrai);
 }
 
 if ('GET' == $_SERVER['REQUEST_METHOD']) :
@@ -30,7 +33,10 @@ if ('GET' == $_SERVER['REQUEST_METHOD']) :
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bebrų Užtvanka</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="http://localhost/Lape/11/bebrai.js" defer></script>
+    <script>const postUrl = 'http://localhost/Lape/11/BebruUztvankaJS.php';</script>
+    <title>Bebrų Užtvanka JS</title>
     <style>
     div, h2 {
         margin: 15px;
@@ -44,9 +50,8 @@ if ('GET' == $_SERVER['REQUEST_METHOD']) :
     </style>
 </head>
 <body>
-    <h2>Juodieji: <?= getBebrai()['juodieji'] ?></h2>
-    <h2>Rudieji: <?= getBebrai()['rudieji'] ?></h2>
-    <form action="http://localhost/Lape/11/BebruUztvanka.php" method="post">
+    <h2>Juodieji: <span id="juodi"><?= getBebrai()['juodieji'] ?></span></h2>
+    <h2>Rudieji: <span id="rudi"><?= getBebrai()['rudieji'] ?></span></h2>
     
     <div>
     <label>Pridėti juodus: </label><input type="text" name="j_plus">
@@ -68,8 +73,6 @@ if ('GET' == $_SERVER['REQUEST_METHOD']) :
     <button type="submit" name="ka_daryti" value="atimti-rudus">-</button>
     </div>
     
-    
-    </form>
 </body>
 </html>
 <?php endif;
