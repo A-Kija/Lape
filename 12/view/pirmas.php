@@ -7,9 +7,10 @@
     <title>Bebrų Užtvanka</title>
     <style>
     div, h2 {
-        margin: 15px;
+        margin: 5px;
         padding: 7px;
         border: 1px solid #ccc;
+        font-size: 12px;
     }
     label {
         display: inline-block;
