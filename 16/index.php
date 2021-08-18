@@ -9,6 +9,8 @@ $tv2 = new TV(42);
 $tv3 = new TV(55);
 
 
+TV::$programs = [1 => 'LRT', 2 => 'LNK', 3 => 'TV Polonia'];
+
 //$tv1
 // public function switchCanel($number)
 // {
@@ -31,6 +33,7 @@ $tv1->chanel = 5057;
 
 $tv3->sellTo('Valentina');
 $tv3->switchCanel(2);
+$tv1->switchCanel(2);
 
 
 _d($tv1, 'TV1');

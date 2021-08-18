@@ -1,0 +1,13 @@
+{
+    "name": "puole/kibirai",
+    "description": "Bla bla bla",
+    "authors": [
+        {
+            "name": "A-Kija",
+            "email": "42836152+A-Kija@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "ramsey/uuid": "^4.2"
+    }
+}
