@@ -1,15 +1,41 @@
 <?php
 
 
-require __DIR__ .'/TV.php';
+spl_autoload_register(function ($name) {
+    _d("mes norim klases: $name");
+});
+
+// spl_autoload_register(function ($name) {
+//     var_dump('Fake 2');
+// });
 
 
-$tv1 = new TV(42, 88);
-$tv2 = new TV(42);
-$tv3 = new TV(55);
+spl_autoload_register(function ($name) {
+    require __DIR__ ."/$name.php";
+});
 
 
-TV::$programs = [1 => 'LRT', 2 => 'LNK', 3 => 'TV Polonia'];
+// require __DIR__ .'/Gabalas.php';
+// require __DIR__ .'/Radijus.php';
+// require __DIR__ .'/Televizija.php';
+// require __DIR__ .'/Bliudas.php';
+// require __DIR__ .'/Antena.php';
+// require __DIR__ .'/TV.php';
+
+
+
+
+
+
+$tv1 = new Start\TV(42, 88);
+$tv2 = new Start\TV(42);
+$tv3 = new Start\TV(55);
+
+
+Start\TV::$programs = [1 => 'LRT', 2 => 'LNK', 3 => 'TV Polonia'];
+
+
+var_dump($tv3 instanceof Radijus);
 
 //$tv1
 // public function switchCanel($number)
@@ -27,6 +53,9 @@ TV::$programs = [1 => 'LRT', 2 => 'LNK', 3 => 'TV Polonia'];
 
 
 $tv1->sellTo('Petras');
+
+$tv1->gabalas();
+$tv1->ijungti(2);
 
 $tv1->chanel = 5057;
 // $tv1->in = 105;
