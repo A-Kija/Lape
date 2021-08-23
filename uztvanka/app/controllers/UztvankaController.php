@@ -23,6 +23,9 @@ class UztvankaController {
     public function index()
     {
         $bebrai = $this->get()->showAll();
+        //
+        // $db_objektas = $this->get();
+        // $bebrai = $db_objektas->showAll();
 
         return App::view('pirmas', ['bebrai' => $bebrai]);
     }
