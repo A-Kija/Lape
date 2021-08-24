@@ -9,6 +9,7 @@ class ComposerStaticInitf1d67209abda87b7b9b7776f980b77a8
     public static $prefixLengthsPsr4 = array (
         'B' => 
         array (
+            'Bebru\\Uztvanka\\Login\\' => 21,
             'Bebru\\Uztvanka\\Controllers\\' => 27,
             'Bebru\\Uztvanka\\' => 15,
         ),
@@ -19,6 +20,10 @@ class ComposerStaticInitf1d67209abda87b7b9b7776f980b77a8
     );
 
     public static $prefixDirsPsr4 = array (
+        'Bebru\\Uztvanka\\Login\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/login',
+        ),
         'Bebru\\Uztvanka\\Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/controllers',

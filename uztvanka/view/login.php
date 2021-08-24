@@ -3,7 +3,7 @@
 <div class="container">
         <div class="row">
             <div class="col-5">
-                <form action="<?= URL ?>?route=login" method="post" class="m-4 login-form">
+                <form action="<?= URL ?>login" method="post" class="m-4 login-form">
                     <div class="form-group">
                         <label>Vardas</label>
                         <input type="text" class="form-control" name="name">

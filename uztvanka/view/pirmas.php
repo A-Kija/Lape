@@ -7,35 +7,35 @@
 <?php foreach ($bebrai as $bebras) : ?>
 <li class="uztvanka list-group-item">
 <h1>Užtvanka Nr. <?= $bebras['id'] ?></h1>
-<form action="<?= URL ?>?route=sugriauti&id=<?= $bebras['id'] ?>" method="post">
+<form action="<?= URL ?>delete/<?= $bebras['id'] ?>" method="post">
     <button type="submit" class="btn btn-danger">Sugriauti</button>
 </form>
 <h2>Juodieji: <?= $bebras['juodieji'] ?></h2>
 <h2>Rudieji: <?= $bebras['rudieji'] ?></h2>
-<form class="m-2" action="<?= URL ?>?route=prideti-juodus&id=<?= $bebras['id'] ?>" method="post">
+<form class="m-2" action="<?= URL ?>add-black/<?= $bebras['id'] ?>" method="post">
     <div class="form-bebrai">
-        <label>Pridėti juodus: </label><input type="text" name="j_plus">
+        <label>Pridėti juodus: </label><input type="text" name="count">
         <button type="submit" class="btn btn-info">+</button>
     </div>
 </form>
 
-<form class="m-2" action="<?= URL ?>?route=atimti-juodus&id=<?= $bebras['id'] ?>" method="post">
+<form class="m-2" action="<?= URL ?>rem-black/<?= $bebras['id'] ?>" method="post">
 <div class="form-bebrai">
-        <label>Atimti juodus: </label><input type="text" name="j_minus">
+        <label>Atimti juodus: </label><input type="text" name="count">
         <button type="submit" class="btn btn-info">-</button>
     </div>
 </form>
 
-<form class="m-2" action="<?= URL ?>?route=prideti-rudus&id=<?= $bebras['id'] ?>" method="post">
+<form class="m-2" action="<?= URL ?>add-brown/<?= $bebras['id'] ?>" method="post">
 <div class="form-bebrai">
-        <label>Pridėti rudus: </label><input type="text" name="r_plus">
+        <label>Pridėti rudus: </label><input type="text" name="count">
         <button type="submit" class="btn btn-info">+</button>
     </div>
 </form>
 
-<form class="m-2" action="<?= URL ?>?route=atimti-rudus&id=<?= $bebras['id'] ?>" method="post">
+<form class="m-2" action="<?= URL ?>rem-black/<?= $bebras['id'] ?>" method="post">
 <div class="form-bebrai">
-        <label>Atimti rudus: </label><input type="text" name="r_minus">
+        <label>Atimti rudus: </label><input type="text" name="count">
         <button type="submit" class="btn btn-info">-</button>
     </div>
 </form>

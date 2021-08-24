@@ -75,10 +75,16 @@
 <body>
 <nav>
     <a class="btn btn-link" href="<?= URL ?>">Pradžia</a>
-    <a class="btn btn-link" href="<?= URL ?>create">Nauja Užtvanka</a>
+    <?php if (isLogged()) : ?>
     <a class="btn btn-link" href="<?= URL ?>list">Sąrašas</a>
-
+    <a class="btn btn-link" href="<?= URL ?>create">Nauja užtvanka</a>
+    <form class="logout-form" action="<?= URL ?>logout" method="post">
+    <button type="submit" class="btn btn-link">Atsijungti <b><?= $_SESSION['name'] ?></b></button>
+    </form>
+    <?php else : ?>
     <a class="btn btn-link" href="<?= URL ?>login">Prisijungti</a>
+    <?php endif ?>
 
 </nav>
 
+<?php showMessages();

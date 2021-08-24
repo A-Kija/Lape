@@ -35,17 +35,30 @@ class Json implements DataBase {
  
     function update(int $uztvankaId, array $uztvankaData) : void
     {
-        
+        foreach ($this->data as $key => $uztvanka) {
+            if ($uztvanka['id'] == $uztvankaId) {
+                $this->data[$key] = $uztvankaData;
+            }
+        }
     }
  
     function delete(int $uztvankaId) : void
     {
-        
+        foreach ($this->data as $key => $uztvanka) {
+            if ($uztvanka['id'] == $uztvankaId) {
+                unset($this->data[$key]);
+            }
+        }
     }
  
     function show(int $uztvankaId) : array
     {
-        
+        foreach ($this->data as $uztvanka) {
+            if ($uztvanka['id'] == $uztvankaId) {
+                return $uztvanka;
+            }
+        }
+        return [];
     }
     
     function showAll() : array
