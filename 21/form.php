@@ -40,10 +40,13 @@ if (isset($_POST['del'])) {
     $id = $_POST['id'];
 
     $sql = "DELETE FROM medziai
-    WHERE id = $id
+    WHERE id = ?
     ";
 
-    $pdo->query($sql);
+    // $pdo->query($sql);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([  $id  ]);
+
     header('Location: http://localhost/Lape/21/form.php');
     exit;
 }
@@ -89,7 +92,6 @@ if (isset($_POST['del'])) {
 
 $sql = "SELECT id, `name`, height, `type`
 FROM medziai
-WHERE `type` <> 2
 ORDER BY height
 LIMIT 10
 ";
