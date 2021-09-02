@@ -1,0 +1,31 @@
+.card-header {
+    color: pink;
+    font-style: italic;
+}
+
+.list-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__content {
+        display: flex;
+        flex-direction: column;
+        small {
+            color: gray;
+            font-style: italic;
+            font-size: 70%;
+        }
+    }
+    &__buttons {
+        display: flex;
+    }
+    .btn {
+        margin: 3px;
+        &.btn-info {
+            transform: rotate(2deg);
+        }
+        &.btn-danger {
+            transform: rotate(-1deg);
+        }
+    }
+}
