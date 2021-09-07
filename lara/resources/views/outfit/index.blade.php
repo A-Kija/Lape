@@ -34,10 +34,55 @@
                           </div>
                         </div>
                         <div class="block">
+                         
                             <a href="{{route('outfit.index')}}" class="btn btn-warning">Reset</a>
                         </div>
                     </fieldset>
                    </form>
+
+                   <form action="{{route('outfit.index')}}" method="get">
+                    <fieldset>
+                      <legend>Filter</legend>
+                      <div class="block">
+                      <div class="form-group">
+                        <select class="form-control" name="master_id">
+                          <option value="0" disabled selected>Select Master</option>
+                        @foreach ($masters as $master)
+                            <option value="{{$master->id}}" @if($master_id == $master->id) selected @endif>{{$master->name}} {{$master->surname}}</option>
+                        @endforeach
+                        </select>
+                        <small class="form-text text-muted">Select master from the list.</small>
+                    </div>
+                  </div>
+                    <div class="block">
+                      <button type="submit" class="btn btn-info" name="filter" value="master">Filter</button>
+                      <a href="{{route('outfit.index')}}" class="btn btn-warning">Reset</a>
+                  </div>
+
+
+                  
+                    </fieldset>
+                  </form>
+
+
+                  <form action="{{route('outfit.index')}}" method="get">
+                    <fieldset>
+                      <legend>Search</legend>
+                      <div class="block">
+                      <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Search" name="s" value="{{$s}}">
+                        <small class="form-text text-muted">Search in our Fashion House</small>
+                    </div>
+                  </div>
+                    <div class="block">
+                      <button type="submit" class="btn btn-info" name="search" value="all">Search</button>
+                      <a href="{{route('outfit.index')}}" class="btn btn-warning">Reset</a>
+                  </div>
+
+
+                  
+                    </fieldset>
+                  </form>
                 
                 </div>
                <div class="card-body">

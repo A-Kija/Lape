@@ -17,7 +17,7 @@ class OutfitController extends Controller
     public function index(Request $request)
     {
         
-
+        $masters = Master::orderBy('surname')->get();
         if ($request->sort) {
             if ('type' == $request->sort && 'asc' == $request->sort_dir) {
                 $outfits = Outfit::orderBy('type')->get();
@@ -41,15 +41,51 @@ class OutfitController extends Controller
                 $outfits = Outfit::all();
             }
         }
+        else if ($request->filter && 'master' == $request->filter) {
+            $outfits = Outfit::where('master_id', $request->master_id)->get();
+        }
+        else if ($request->search && 'all' == $request->search) {
+
+            $words = explode(' ', $request->s);
+
+            // dd($words);
+
+            if (count($words) == 1) {
+                $outfits = Outfit::where('color', 'like', '%'.$request->s.'%')->
+                orWhere('type', 'like', '%'.$request->s.'%')->
+                orWhere('size', 'like', '%'.$request->s.'%')->
+                get();
+            }
+            else {
+                $outfits = Outfit::where(function($query) use ($words) {
+                    $query->orWhere('color', 'like', '%'.$words[0].'%')
+                    ->orWhere('type', 'like', '%'.$words[0].'%')
+                    ->orWhere('size', 'like', '%'.$words[0].'%');
+                })
+                ->where(function($query) use ($words) {
+                    $query->orWhere('color', 'like', '%'.$words[1].'%')
+                    ->orWhere('type', 'like', '%'.$words[1].'%')
+                    ->orWhere('size', 'like', '%'.$words[1].'%');
+                })->get();
+            }
+
+
+
+        }
         else {
             // nieko nesortinam
             $outfits = Outfit::all();
         }
+
+       
         
 
         return view('outfit.index', [
             'outfits' => $outfits,
-            'sortDirection' => $request->sort_dir ?? 'asc'
+            'sortDirection' => $request->sort_dir ?? 'asc',
+            'masters' => $masters,
+            'master_id' => $request->master_id ?? '0',
+            's' => $request->s ?? ''
         ]);
     }
 
