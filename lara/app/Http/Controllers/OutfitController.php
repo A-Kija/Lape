@@ -14,10 +14,43 @@ class OutfitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $outfits = Outfit::all();
-        return view('outfit.index', ['outfits' => $outfits]);
+        
+
+        if ($request->sort) {
+            if ('type' == $request->sort && 'asc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('type')->get();
+            }
+            else if ('type' == $request->sort && 'desc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('type', 'desc')->get();
+            }
+            else if ('color' == $request->sort && 'asc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('color')->get();
+            }
+            else if ('color' == $request->sort && 'desc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('color', 'desc')->get();
+            }
+            else if ('size' == $request->sort && 'asc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('size')->get();
+            }
+            else if ('size' == $request->sort && 'desc' == $request->sort_dir) {
+                $outfits = Outfit::orderBy('size', 'desc')->get();
+            }
+            else {
+                $outfits = Outfit::all();
+            }
+        }
+        else {
+            // nieko nesortinam
+            $outfits = Outfit::all();
+        }
+        
+
+        return view('outfit.index', [
+            'outfits' => $outfits,
+            'sortDirection' => $request->sort_dir ?? 'asc'
+        ]);
     }
 
     /**
@@ -27,7 +60,7 @@ class OutfitController extends Controller
      */
     public function create()
     {
-        $masters = Master::all();
+        $masters = Master::orderBy('surname')->get();
         return view('outfit.create', ['masters' => $masters]);
     }
 
@@ -88,7 +121,7 @@ class OutfitController extends Controller
      */
     public function edit(Outfit $outfit)
     {
-        $masters = Master::all();
+        $masters = Master::orderBy('surname')->get();
         return view('outfit.edit', ['outfit' => $outfit, 'masters' => $masters]);
     }
 

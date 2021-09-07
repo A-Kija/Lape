@@ -10006,6 +10006,23 @@ h3 {
   color: pink;
   font-style: italic;
 }
+.card-header fieldset {
+  border: 1px solid blueviolet;
+  margin: 5px;
+  padding: 12px;
+  display: flex;
+}
+.card-header fieldset .block {
+  margin: 7px;
+}
+.card-header fieldset legend {
+  color: blueviolet;
+  font-size: 12px;
+  display: inline-block;
+  padding: 6px;
+  text-align: center;
+  width: auto;
+}
 
 .list-block {
   display: flex;
