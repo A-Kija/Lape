@@ -10050,3 +10050,28 @@ h3 {
 .list-block .btn.btn-danger {
   transform: rotate(-1deg);
 }
+.list-block .btn.btn-warning {
+  transform: rotate(-1.5deg);
+}
+
+.outfit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.outfit-container__size {
+  font-size: 15px;
+  letter-spacing: 1px;
+  padding: 11px;
+  margin: 12px;
+}
+.outfit-container__color {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px;
+  font-size: 25px;
+  text-transform: uppercase;
+}

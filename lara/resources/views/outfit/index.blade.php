@@ -86,6 +86,7 @@
                 
                 </div>
                <div class="card-body">
+                <div class="mb-3">{{$outfits->links()}}</div>
                 <ul class="list-group">
                 @foreach ($outfits as $outfit)
                 <li class="list-group-item">
@@ -96,6 +97,7 @@
                         </div>
                         <div class="list-block__buttons">
                             <a href="{{route('outfit.edit',[$outfit])}}" class="btn btn-info">Edit</a></a>
+                            <a href="{{route('outfit.show',[$outfit])}}" class="btn btn-warning">Show</a></a>
                             <form method="POST" action="{{route('outfit.destroy', [$outfit])}}">
                                 @csrf
                                 <button type="submit" class="btn btn-danger">Delete</button>
@@ -105,7 +107,10 @@
                 </li>
               @endforeach
                 </ul>
+                
+                <div class="mt-3">{{$outfits->links()}}</div>
                </div>
+               
            </div>
        </div>
    </div>

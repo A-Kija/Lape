@@ -8,6 +8,8 @@ use Validator;
 
 class MasterController extends Controller
 {
+    const RESULTS_IN_PAGE = 5;
+    
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +17,8 @@ class MasterController extends Controller
      */
     public function index()
     {
-        $masters = Master::all();
-        // $masters = Master::orderBy('surname')->get();
+        // $masters = Master::all();
+        $masters = Master::orderBy('surname')->paginate(self::RESULTS_IN_PAGE);
 
         // $masters = $masters->sortByDesc('surname');
 

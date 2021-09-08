@@ -44,5 +44,30 @@
         &.btn-danger {
             transform: rotate(-1deg);
         }
+        &.btn-warning {
+            transform: rotate(-1.5deg);
+        }
+    }
+}
+
+.outfit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__size {
+        font-size: 15px;
+        letter-spacing: 1px;
+        padding: 11px;
+        margin: 12px;
+    }
+    &__color {
+        width: 120px;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 12px;
+        font-size: 25px;
+        text-transform: uppercase;
     }
 }
