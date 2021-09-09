@@ -91,6 +91,13 @@
                 @foreach ($outfits as $outfit)
                 <li class="list-group-item">
                     <div class="list-block">
+                      <div class="list-block__img">
+                        @if($outfit->photo)
+                        <img src="{{$outfit->photo}}" alt="{{$outfit->type}}">
+                        @else
+                        <img src="{{asset('img/no-image.png')}}" alt="{{$outfit->type}}">
+                        @endif
+                      </div>
                         <div class="list-block__content">
                             <span><b>{{$outfit->type}}</b> <i>Color: </i>{{$outfit->color}} <i>Size: </i>{{$outfit->size}}</span>
                             <small>{{$outfit->getMaster->name}} {{$outfit->getMaster->surname}}</small> 

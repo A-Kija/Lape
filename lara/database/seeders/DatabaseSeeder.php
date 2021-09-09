@@ -33,10 +33,12 @@ class DatabaseSeeder extends Seeder
         $outfits = ['Dress', 'Pants', 'Coat', 'Shorts', 'Cardigan', 'Pullover', 'Overall', 'Bikini', 'Hat', 'Jeans', 'Skirt', 'Long skirt', 'Mini skirt', 'Shirts'];
 
         foreach(range(1, 200) as $_) {
+            $type = $outfits[rand(0, count($outfits) - 1)];
             DB::table('outfits')->insert([
-                'type' => $outfits[rand(0, count($outfits) - 1)],
+                'type' => $type,
                 'color' => $faker->safeColorName,
                 'size' => rand(5, 22),
+                'photo' => rand(0, 3) ? $faker->imageUrl(200, 300, $type, false) : null,
                 'about' => $faker->realText(500),
                 'master_id' => rand(1, $mastersCount)
             ]);

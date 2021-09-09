@@ -10028,18 +10028,27 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 .list-block__content {
   display: flex;
   flex-direction: column;
+  min-width: 180px;
+  margin: 10px;
 }
 .list-block__content small {
   color: gray;
   font-style: italic;
   font-size: 70%;
 }
+.list-block__img img {
+  height: 200px;
+  width: auto;
+}
 .list-block__buttons {
   display: flex;
+  min-width: 210px;
+  margin: 10px 0;
 }
 .list-block .btn {
   margin: 3px;
@@ -10074,4 +10083,9 @@ h3 {
   margin: 12px;
   font-size: 25px;
   text-transform: uppercase;
+}
+
+.img img {
+  height: 200px;
+  width: auto;
 }

@@ -19,6 +19,7 @@ class CreateOutfitsTable extends Migration
             $table->string('color', 20);
             $table->integer('size');
             $table->text('about');
+            $table->string('photo', 200)->nullable();
             $table->unsignedBigInteger('master_id');
             $table->foreign('master_id')->references('id')->on('masters');
             $table->timestamps();

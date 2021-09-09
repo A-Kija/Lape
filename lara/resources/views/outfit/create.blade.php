@@ -7,7 +7,7 @@
            <div class="card">
                <div class="card-header">New Outfit</div>
                <div class="card-body">
-                <form method="POST" action="{{route('outfit.store')}}">
+                <form method="POST" action="{{route('outfit.store')}}" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Type</label>
                         <input type="text" class="form-control" name="outfit_type" value="{{old('outfit_type')}}">
@@ -27,6 +27,11 @@
                         <label>About</label>
                         <textarea class="form-control" name="outfit_about">{{old('outfit_about')}}</textarea>
                         <small class="form-text text-muted">About outfit.</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <input type="file" class="form-control" name="outfit_photo">
+                        <small class="form-text text-muted">Outfit image.</small>
                     </div>
                     <div class="form-group">
                         <label>Master</label>

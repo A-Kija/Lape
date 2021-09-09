@@ -7,6 +7,7 @@ use App\Models\Master;
 use Illuminate\Http\Request;
 use Validator;
 use PDF;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class OutfitController extends Controller
 {
@@ -76,8 +77,8 @@ class OutfitController extends Controller
 
         }
         else {
-            // nieko nesortinam
-            $outfits = Outfit::paginate(self::RESULTS_IN_PAGE)->withQueryString();
+            // sortinam pagal naujuma
+            $outfits = Outfit::orderBy('created_at', 'desc')->paginate(self::RESULTS_IN_PAGE)->withQueryString();
         }
 
        
@@ -112,6 +113,8 @@ class OutfitController extends Controller
     public function store(Request $request)
     {
         
+
+        
         $validator = Validator::make(
             $request->all(),
             [
@@ -119,7 +122,8 @@ class OutfitController extends Controller
                 'outfit_color' => ['required', 'min:3', 'max:20'],
                 'outfit_size' => ['required', 'integer', 'min:5', 'max:22'],
                 'outfit_about' => ['required'],
-                'master_id' => ['required', 'integer', 'min:1']
+                'master_id' => ['required', 'integer', 'min:1'],
+                'outfit_photo' => ['sometimes', 'image']
             ]
         );
 
@@ -127,9 +131,25 @@ class OutfitController extends Controller
            $request->flash();
            return redirect()->back()->withErrors($validator);
        }
+
+       $outfit = new Outfit;
+
+       $file = $request->file('outfit_photo');
+       if ($file) {
+           $ext = $file->getClientOriginalExtension();
+           $name = rand(1000000, 9999999).'_'.rand(1000000, 9999999);
+           $name = $name.'.'.$ext;
+           $destinationPath = public_path().'/outfits-images/';
+           $file->move($destinationPath, $name);
+           $outfit->photo = asset('/outfits-images/'.$name);
+
+           $img = Image::make($destinationPath.$name);
+           $img->gamma(5.6)->flip('v');
+           $img->save($destinationPath.$name);
+
+       }
+       
         
-        
-        $outfit = new Outfit;
         $outfit->type = $request->outfit_type;
         $outfit->color = $request->outfit_color;
         $outfit->size = $request->outfit_size;
@@ -182,7 +202,8 @@ class OutfitController extends Controller
                 'outfit_color' => ['required', 'min:3', 'max:20'],
                 'outfit_size' => ['required', 'integer', 'min:5', 'max:22'],
                 'outfit_about' => ['required'],
-                'master_id' => ['required', 'integer', 'min:1']
+                'master_id' => ['required', 'integer', 'min:1'],
+                'outfit_photo' => ['sometimes', 'image']
             ]
         );
 
@@ -192,6 +213,38 @@ class OutfitController extends Controller
        }
         
         
+       $file = $request->file('outfit_photo');
+       if ($file) {
+           $ext = $file->getClientOriginalExtension();
+           $name = rand(1000000, 9999999).'_'.rand(1000000, 9999999);
+           $name = $name.'.'.$ext;
+           $destinationPath = public_path().'/outfits-images/';
+           $file->move($destinationPath, $name);
+
+
+
+
+           $oldPhoto = $outfit->photo ?? '@@@';
+           $outfit->photo = asset('/outfits-images/'.$name);
+           
+           // Trinam sena jeigu ji yra
+           $oldName = explode('/', $oldPhoto);
+           $oldName = array_pop($oldName);
+           if (file_exists($destinationPath.$oldName)){
+                unlink($destinationPath.$oldName);
+            }
+       }
+       if ($request->outfit_photo_delete) {
+            $destinationPath = public_path().'/outfits-images/';
+            $oldPhoto = $outfit->photo ?? '@@@';
+            $outfit->photo = null;
+            $oldName = explode('/', $oldPhoto);
+            $oldName = array_pop($oldName);
+            if (file_exists($destinationPath.$oldName)){
+                 unlink($destinationPath.$oldName);
+            }
+       }
+
         $outfit->type = $request->outfit_type;
         $outfit->color = $request->outfit_color;
         $outfit->size = $request->outfit_size;
@@ -211,6 +264,16 @@ class OutfitController extends Controller
      */
     public function destroy(Outfit $outfit)
     {
+       
+        // Trinam sena jeigu ji yra
+        $destinationPath = public_path().'/outfits-images/';
+        $oldPhoto = $outfit->photo ?? '@@@';
+        $oldName = explode('/', $oldPhoto);
+        $oldName = array_pop($oldName);
+        if (file_exists($destinationPath.$oldName)){
+             unlink($destinationPath.$oldName);
+        }
+        
         $outfit->delete();
         return redirect()
         ->route('outfit.index')
