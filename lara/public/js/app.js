@@ -1845,6 +1845,9 @@ module.exports = {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    forEach = _require.forEach;
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // window.Vue = require('vue').default;
 
 /**
@@ -1873,6 +1876,55 @@ document.addEventListener('DOMContentLoaded', function () {
     $('[name=outfit_about]').summernote();
   }
 });
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.querySelector('#root')) {
+    var url = apiUrl + '/' + location.hash.substr(1);
+    request(url);
+  }
+});
+window.addEventListener("hashchange", function () {
+  var url = apiUrl + '/' + location.hash.substr(1);
+  request(url);
+});
+
+var request = function request(url) {
+  var root = document.querySelector('#root');
+  axios.get(url, {}).then(function (response) {
+    root.innerHTML = response.data.html;
+    hydrationPagination(root);
+  })["catch"](function (error) {
+    console.log(error);
+  });
+};
+
+var postRequest = function postRequest(url, data) {
+  axios.post(url, data).then(function (response) {
+    window.location.hash = response.data.hash;
+  })["catch"](function (error) {
+    console.log(error);
+  });
+};
+
+var hydrationPagination = function hydrationPagination(node) {
+  node.querySelectorAll('a.page-link').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var url = e.target.getAttribute('href');
+      request(url);
+    });
+  });
+  node.querySelectorAll('button.btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var form = b.closest('form');
+      var url = form.getAttribute('action');
+      var data = {};
+      form.querySelectorAll('[name]').forEach(function (i) {
+        data[i.getAttribute('name')] = i.value;
+      });
+      postRequest(url, data);
+    });
+  });
+};
 
 /***/ }),
 

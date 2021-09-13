@@ -22,6 +22,8 @@
     
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>const apiUrl = "{{route('master-js.index')}}";</script>
 </head>
 <body>
     <div id="app">
@@ -56,6 +58,22 @@
                                 </li>
                             @endif
                         @else
+
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Masters JS
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('master-js.index') }}#list">
+                                    Masters JS List
+                                </a>
+                                    <a class="dropdown-item" href="{{ route('master-js.index') }}#create">
+                                    New Masters JS
+                                </a>
+                            </div>
+                        </li>
+
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                                                Masters
