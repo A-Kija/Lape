@@ -155,6 +155,12 @@
                        </div>
                    </div>
 
+
+                <div class="container" id="msg">
+                    
+                </div>
+
+
         <main class="py-4">
             @yield('content')
         </main>

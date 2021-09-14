@@ -49,7 +49,11 @@ Route::group(['prefix' => 'masters-js'], function() {
 
     Route::get('list', [MasterJsController::class, 'list'])->name('master-js.list');
     Route::get('create', [MasterJsController::class, 'create'])->name('master-js.create');
-
+    Route::post('store', [MasterJsController::class, 'store'])->name('master-js.store');
+    Route::get('edit/{master}', [MasterJsController::class, 'edit'])->name('master-js.edit');
+    Route::post('delete/{master}', [MasterJsController::class, 'destroy'])->name('master-js.destroy');
+    Route::post('update/{master}', [MasterJsController::class, 'update'])->name('master-js.update');
+    
 });
  
  

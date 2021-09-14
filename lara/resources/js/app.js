@@ -42,15 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('#root')) {
-        const url = apiUrl + '/' + location.hash.substr(1);
+        let hash;
+        if (!location.hash) {
+            hash = '#list';
+        } else {
+            hash = location.hash;
+        }
+        const url = apiUrl + '/' + hash.substr(1);
         request(url);
     }
 });
 
 window.addEventListener("hashchange", () => {
-    const url = apiUrl + '/' + location.hash.substr(1);
-    request(url);
+    getHash();
 });
+
+const getHash = () => {
+    let url = apiUrl + '/' + location.hash.substr(1);
+    url = url.replace('|', '/');
+    request(url);
+}
 
 const request = (url) => {
     const root = document.querySelector('#root');
@@ -67,7 +78,23 @@ const request = (url) => {
 const postRequest = (url, data) => {
     axios.post(url, data)
         .then(function(response) {
-            window.location.hash = response.data.hash;
+            if (response.data.hash === undefined) {
+                response.data.hash = location.hash.substr(1);
+            }
+
+            if (location.hash.substr(1) == response.data.hash) {
+                getHash();
+            } else {
+                window.location.hash = response.data.hash;
+            }
+
+
+            if (response.data.msg) {
+                document.querySelector('#msg').innerHTML = response.data.msg;
+            } else {
+                document.querySelector('#msg').innerHTML = '';
+            }
+
         })
         .catch(function(error) {
             console.log(error);
@@ -76,15 +103,23 @@ const postRequest = (url, data) => {
 
 
 const hydrationPagination = node => {
+    node.querySelectorAll('a.link-btn').forEach(a => {
+        a.addEventListener('click', () => {
+            document.querySelector('#msg').innerHTML = '';
+        })
+    })
     node.querySelectorAll('a.page-link').forEach(a => {
         a.addEventListener('click', e => {
+            document.querySelector('#msg').innerHTML = '';
             e.preventDefault();
             const url = e.target.getAttribute('href');
             request(url);
         })
     })
     node.querySelectorAll('button.btn').forEach(b => {
-        b.addEventListener('click', () => {
+        b.addEventListener('click', (e) => {
+            document.querySelector('#msg').innerHTML = '';
+            e.preventDefault();
             const form = b.closest('form');
             const url = form.getAttribute('action');
             const data = {};

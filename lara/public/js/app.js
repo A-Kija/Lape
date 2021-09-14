@@ -1878,14 +1878,27 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('#root')) {
-    var url = apiUrl + '/' + location.hash.substr(1);
+    var hash;
+
+    if (!location.hash) {
+      hash = '#list';
+    } else {
+      hash = location.hash;
+    }
+
+    var url = apiUrl + '/' + hash.substr(1);
     request(url);
   }
 });
 window.addEventListener("hashchange", function () {
-  var url = apiUrl + '/' + location.hash.substr(1);
-  request(url);
+  getHash();
 });
+
+var getHash = function getHash() {
+  var url = apiUrl + '/' + location.hash.substr(1);
+  url = url.replace('|', '/');
+  request(url);
+};
 
 var request = function request(url) {
   var root = document.querySelector('#root');
@@ -1899,22 +1912,44 @@ var request = function request(url) {
 
 var postRequest = function postRequest(url, data) {
   axios.post(url, data).then(function (response) {
-    window.location.hash = response.data.hash;
+    if (response.data.hash === undefined) {
+      response.data.hash = location.hash.substr(1);
+    }
+
+    if (location.hash.substr(1) == response.data.hash) {
+      getHash();
+    } else {
+      window.location.hash = response.data.hash;
+    }
+
+    if (response.data.msg) {
+      document.querySelector('#msg').innerHTML = response.data.msg;
+    } else {
+      document.querySelector('#msg').innerHTML = '';
+    }
   })["catch"](function (error) {
     console.log(error);
   });
 };
 
 var hydrationPagination = function hydrationPagination(node) {
+  node.querySelectorAll('a.link-btn').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.querySelector('#msg').innerHTML = '';
+    });
+  });
   node.querySelectorAll('a.page-link').forEach(function (a) {
     a.addEventListener('click', function (e) {
+      document.querySelector('#msg').innerHTML = '';
       e.preventDefault();
       var url = e.target.getAttribute('href');
       request(url);
     });
   });
   node.querySelectorAll('button.btn').forEach(function (b) {
-    b.addEventListener('click', function () {
+    b.addEventListener('click', function (e) {
+      document.querySelector('#msg').innerHTML = '';
+      e.preventDefault();
       var form = b.closest('form');
       var url = form.getAttribute('action');
       var data = {};

@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">New Master</div>
     <div class="card-body">
-     <form method="POST" action="{{route('master.store')}}">
+     <form method="POST" action="{{route('master-js.store')}}">
          <div class="form-group">
              <label>Name: </label>
              <input type="text" class="form-control" name="master_name" value="{{old('master_name')}}">
